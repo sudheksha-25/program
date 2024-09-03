@@ -1,0 +1,50 @@
+class Encryptor {
+    private final String inputString;
+    private final int key;
+
+    // Constructor to initialize the input string and key
+    public Encryptor(String inputString, int key) {
+        this.inputString = inputString;
+        this.key = key;
+    }
+
+    // Method to encrypt the entire string
+    public String encryptString() {
+        StringBuilder encryptedString = new StringBuilder();
+
+        for (char c : inputString.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char encryptedChar = encryptCharacter(c, key);
+                encryptedString.append(encryptedChar);
+            } else {
+                encryptedString.append(c); // Append non-letter characters as-is
+            }
+        }
+
+        return encryptedString.toString();
+    }
+
+    // Static method to encrypt a single character
+    private static char encryptCharacter(char c, int key) {
+        final int ALPHABET_SIZE = 26;
+        int baseValue = Character.isUpperCase(c) ? 'A' : 'a';
+        int charValue = c - baseValue;
+        int encryptedValue = (charValue + key) % ALPHABET_SIZE;
+
+        char encryptedChar = (char) (baseValue + encryptedValue);
+
+        // Swap the case for the encrypted character
+        if (Character.isUpperCase(c)) {
+            return Character.toLowerCase(encryptedChar);
+        } else {
+            return Character.toUpperCase(encryptedChar);
+        }
+    }
+
+    // Main method to test the encryption
+    public static void main(String[] args) {
+        Encryptor encryptor = new Encryptor("Wipro Tech", 20);
+        String encryptedString = encryptor.encryptString();
+        System.out.println("Encrypted words: " + encryptedString);
+    }
+}
